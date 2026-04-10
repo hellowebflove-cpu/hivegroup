@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
+import { Inter } from 'next/font/google'
 import React from 'react'
 
+const inter = Inter({ subsets: ['latin', 'cyrillic'], weight: ['400'], variable: '--font-inter' })
+
 import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/Footer/Component'
+import { SiteFooter } from '@/components/SiteFooter'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
@@ -20,7 +21,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html className={cn(inter.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
@@ -36,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
           <Header />
           {children}
-          <Footer />
+          <SiteFooter />
         </Providers>
       </body>
     </html>

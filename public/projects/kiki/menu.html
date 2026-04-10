@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiki — Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: #1a1a1a;
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- PAGE LAYOUT ---- */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 48px 52px;
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ---- COVER PAGE ---- */
+  .cover {
+    background: #C45A2D;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFDF4;
+    position: relative;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.15) 100%);
+  }
+  .cover-logo {
+    position: relative;
+    z-index: 1;
+    font-size: 72px;
+    font-style: italic;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .cover-subtitle {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+  }
+  .cover-line {
+    position: relative;
+    z-index: 1;
+    width: 60px;
+    height: 1px;
+    background: rgba(255,253,244,0.4);
+    margin-bottom: 40px;
+  }
+  .cover-tagline {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    opacity: 0.7;
+  }
+  .cover-address {
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,253,244,0.5);
+    z-index: 1;
+  }
+  .cover-dots {
+    position: absolute;
+    top: 48px;
+    right: 52px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,253,244,0.4);
+    z-index: 1;
+  }
+
+  /* ---- SECTION PAGES ---- */
+  .menu-page {
+    background: #FFFDF4;
+  }
+  .section-header {
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .section-title {
+    font-size: 36px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    color: #C45A2D;
+    margin-bottom: 6px;
+  }
+  .section-desc {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+  }
+  .page-number {
+    position: absolute;
+    bottom: 40px;
+    right: 52px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ccc;
+  }
+  .page-brand {
+    position: absolute;
+    bottom: 40px;
+    left: 52px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ccc;
+  }
+
+  /* ---- MENU ITEMS ---- */
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .item-left { flex: 1; padding-right: 20px; }
+  .item-name {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+  .item-desc {
+    font-size: 10px;
+    line-height: 1.5;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .item-price {
+    font-size: 15px;
+    white-space: nowrap;
+    color: #C45A2D;
+  }
+
+  /* ---- CATEGORY ---- */
+  .category {
+    margin-bottom: 36px;
+  }
+  .category-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #C45A2D;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #C45A2D;
+    display: inline-block;
+  }
+
+  /* ---- PHOTO BREAK ---- */
+  .photo-break {
+    width: 210mm;
+    height: 140mm;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .photo-break img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .photo-break .photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 52px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.5));
+    color: #FFFDF4;
+  }
+  .photo-break .photo-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    opacity: 0.8;
+  }
+
+  /* ---- GRID PHOTOS ---- */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin: 32px 0;
+  }
+  .photo-grid img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  /* ---- NOTE ---- */
+  .menu-note {
+    margin-top: 32px;
+    padding: 20px;
+    background: rgba(196,90,45,0.05);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    color: #999;
+    text-align: center;
+  }
+
+  /* ---- BACK COVER ---- */
+  .back-cover {
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFDF4;
+  }
+  .back-logo {
+    font-size: 48px;
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+  .back-sub {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+    opacity: 0.6;
+  }
+  .back-info {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 2.2;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1: COVER ============ -->
+<div class="page cover">
+  <div class="cover-dots">Est. 2025</div>
+  <div class="cover-logo">Kiki</div>
+  <div class="cover-subtitle">Burger Cafe</div>
+  <div class="cover-line"></div>
+  <div class="cover-tagline">Menu &amp; Cocktails</div>
+  <div class="cover-address">Warsaw, Poland &nbsp;&bull;&nbsp; @kiki.warszawa</div>
+</div>
+
+<!-- ============ PAGE 2: BURGERS ============ -->
+<div class="page menu-page">
+  <div class="section-header">
+    <div class="section-title">Burgers</div>
+    <div class="section-desc">Our signature crafted burgers</div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Classics</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Kiki Classic</div>
+        <div class="item-desc">Angus beef patty, cheddar, pickles, Kiki sauce, brioche bun</div>
+      </div>
+      <div class="item-price">38 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Double Smash</div>
+        <div class="item-desc">Double smashed patty, american cheese, caramelized onion, special sauce</div>
+      </div>
+      <div class="item-price">46 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Truffle Burger</div>
+        <div class="item-desc">Angus beef, gruyere, truffle mayo, arugula, crispy shallots</div>
+      </div>
+      <div class="item-price">52 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">BBQ Bacon</div>
+        <div class="item-desc">Beef patty, smoked bacon, aged cheddar, house BBQ glaze, coleslaw</div>
+      </div>
+      <div class="item-price">44 PLN</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Signature</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Kiki Royale</div>
+        <div class="item-desc">Wagyu beef, foie gras, fig jam, brie, toasted brioche</div>
+      </div>
+      <div class="item-price">78 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Mediterranean</div>
+        <div class="item-desc">Lamb patty, feta, sun-dried tomato, tzatziki, fresh herbs</div>
+      </div>
+      <div class="item-price">48 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Crispy Chicken</div>
+        <div class="item-desc">Buttermilk fried chicken, kimchi slaw, gochujang mayo, pickled daikon</div>
+      </div>
+      <div class="item-price">42 PLN</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Plant-Based</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Green Goddess</div>
+        <div class="item-desc">Beyond patty, avocado, sprouts, vegan cheddar, herb aioli</div>
+      </div>
+      <div class="item-price">44 PLN</div>
+    </div>
+  </div>
+
+  <div class="page-brand">Kiki Burger Cafe</div>
+  <div class="page-number">02</div>
+</div>
+
+<!-- ============ PAGE 3: WRAPS & SIDES ============ -->
+<div class="page menu-page">
+  <div class="section-header">
+    <div class="section-title">Wraps &amp; Sides</div>
+    <div class="section-desc">Perfectly wrapped, perfectly served</div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Wraps</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Kiki Wrap</div>
+        <div class="item-desc">Grilled chicken, romaine, parmesan, caesar dressing, flour tortilla</div>
+      </div>
+      <div class="item-price">32 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Falafel Wrap</div>
+        <div class="item-desc">Crispy falafel, hummus, tabbouleh, tahini, pickled turnip</div>
+      </div>
+      <div class="item-price">30 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Spicy Beef</div>
+        <div class="item-desc">Marinated beef, jalapeno, sour cream, pico de gallo, cheddar</div>
+      </div>
+      <div class="item-price">36 PLN</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Sides</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Hand-Cut Fries</div>
+        <div class="item-desc">With Kiki sauce</div>
+      </div>
+      <div class="item-price">16 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Truffle Fries</div>
+        <div class="item-desc">Parmesan, truffle oil, fresh herbs</div>
+      </div>
+      <div class="item-price">22 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Sweet Potato Fries</div>
+        <div class="item-desc">With chipotle mayo</div>
+      </div>
+      <div class="item-price">18 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Marinated Olives</div>
+        <div class="item-desc">Mixed olives, herbs, chili flakes, lemon zest</div>
+      </div>
+      <div class="item-price">14 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Caesar Salad</div>
+        <div class="item-desc">Romaine, croutons, parmesan, anchovy dressing</div>
+      </div>
+      <div class="item-price">28 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Onion Rings</div>
+        <div class="item-desc">Beer-battered, smoked paprika aioli</div>
+      </div>
+      <div class="item-price">16 PLN</div>
+    </div>
+  </div>
+
+  <div class="page-brand">Kiki Burger Cafe</div>
+  <div class="page-number">03</div>
+</div>
+
+<!-- ============ PAGE 4: COCKTAILS ============ -->
+<div class="page menu-page">
+  <div class="section-header">
+    <div class="section-title">Cocktails</div>
+    <div class="section-desc">Beautifully authentic, expertly crafted</div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Signature Cocktails</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Kiki Negroni</div>
+        <div class="item-desc">Gin, campari, sweet vermouth, orange peel, served on a large ice cube</div>
+      </div>
+      <div class="item-price">38 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Warsaw Sour</div>
+        <div class="item-desc">Zubrowka, lemon, honey syrup, egg white, angostura bitters</div>
+      </div>
+      <div class="item-price">36 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Disco Spritz</div>
+        <div class="item-desc">Aperol, prosecco, blood orange, elderflower tonic, rosemary</div>
+      </div>
+      <div class="item-price">34 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Smoky Old Fashioned</div>
+        <div class="item-desc">Bourbon, demerara syrup, mole bitters, smoked with applewood</div>
+      </div>
+      <div class="item-price">42 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Passion Daiquiri</div>
+        <div class="item-desc">White rum, passion fruit, lime, vanilla, chili salt rim</div>
+      </div>
+      <div class="item-price">36 PLN</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Classics</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Margarita</div>
+        <div class="item-desc">Tequila, cointreau, fresh lime, agave</div>
+      </div>
+      <div class="item-price">34 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Espresso Martini</div>
+        <div class="item-desc">Vodka, kahlua, fresh espresso, vanilla</div>
+      </div>
+      <div class="item-price">36 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Mojito</div>
+        <div class="item-desc">White rum, fresh mint, lime, sugar cane, soda</div>
+      </div>
+      <div class="item-price">32 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Aperol Spritz</div>
+        <div class="item-desc">Aperol, prosecco, soda, orange slice</div>
+      </div>
+      <div class="item-price">30 PLN</div>
+    </div>
+  </div>
+
+  <div class="page-brand">Kiki Burger Cafe</div>
+  <div class="page-number">04</div>
+</div>
+
+<!-- ============ PAGE 5: DRINKS ============ -->
+<div class="page menu-page">
+  <div class="section-header">
+    <div class="section-title">Drinks</div>
+    <div class="section-desc">Wine, beer &amp; non-alcoholic</div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Wine</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Prosecco</div>
+        <div class="item-desc">Extra dry, Veneto, Italy</div>
+      </div>
+      <div class="item-price">28 / 120 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Sauvignon Blanc</div>
+        <div class="item-desc">Marlborough, New Zealand</div>
+      </div>
+      <div class="item-price">26 / 110 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Pinot Noir</div>
+        <div class="item-desc">Burgundy, France</div>
+      </div>
+      <div class="item-price">32 / 140 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Rose</div>
+        <div class="item-desc">Cotes de Provence, France</div>
+      </div>
+      <div class="item-price">28 / 120 PLN</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Beer</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Craft Lager</div>
+        <div class="item-desc">Local Warsaw brewery, 330ml</div>
+      </div>
+      <div class="item-price">18 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">IPA</div>
+        <div class="item-desc">Citrus-forward, hoppy, 330ml</div>
+      </div>
+      <div class="item-price">20 PLN</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Non-Alcoholic</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Fresh Lemonade</div>
+        <div class="item-desc">Lemon, mint, honey</div>
+      </div>
+      <div class="item-price">16 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Kombucha</div>
+        <div class="item-desc">Ginger or passion fruit</div>
+      </div>
+      <div class="item-price">18 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Espresso / Americano</div>
+        <div class="item-desc">Specialty roast</div>
+      </div>
+      <div class="item-price">12 / 14 PLN</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Flat White</div>
+        <div class="item-desc">Double shot, oat milk available</div>
+      </div>
+      <div class="item-price">16 PLN</div>
+    </div>
+  </div>
+
+  <div class="menu-note">
+    Prices include VAT. Please inform our staff about any food allergies or dietary requirements.
+    A 10% service charge may be added for groups of 6 or more.
+  </div>
+
+  <div class="page-brand">Kiki Burger Cafe</div>
+  <div class="page-number">05</div>
+</div>
+
+<!-- ============ PAGE 6: BACK COVER ============ -->
+<div class="page back-cover">
+  <div class="back-logo">Kiki</div>
+  <div class="back-sub">Burger Cafe</div>
+  <div class="back-info">
+    Warsaw, Poland<br>
+    @kiki.warszawa<br><br>
+    Come for the flavours,<br>
+    stay for the atmosphere.
+  </div>
+</div>
+
+</body>
+</html>
