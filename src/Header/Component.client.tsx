@@ -20,7 +20,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [pathname])
 
   useEffect(() => {
-    if (headerTheme !== theme) setTheme(headerTheme)
+    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
   }, [headerTheme])
 
   const isDark = theme === 'dark'
