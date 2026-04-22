@@ -1,16 +1,20 @@
 // Import scraped projects into Payload CMS. Skips slugs already in DB.
 // Run: pnpm tsx scripts/import-hg.mts
-import 'dotenv/config'
 import dotenv from 'dotenv'
+// Load env BEFORE any payload-related imports (config reads process.env at module load time).
+dotenv.config({ path: '.env', override: false })
 dotenv.config({ path: '.env.local', override: true })
-// Postgres on Vercel requires SSL.
 process.env.PGSSLMODE = 'require'
 if (process.env.DATABASE_URL && !/sslmode=/.test(process.env.DATABASE_URL)) {
   const sep = process.env.DATABASE_URL.includes('?') ? '&' : '?'
   process.env.DATABASE_URL = `${process.env.DATABASE_URL}${sep}sslmode=require`
 }
-import { getPayload } from 'payload'
-import config from '@payload-config'
+if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  console.error('BLOB_READ_WRITE_TOKEN missing — media would not upload to Vercel Blob. Aborting.')
+  process.exit(1)
+}
+const { getPayload } = await import('payload')
+const config = (await import('@payload-config')).default
 import { readFile, readdir } from 'node:fs/promises'
 import path from 'node:path'
 

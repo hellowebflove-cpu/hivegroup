@@ -59,44 +59,35 @@ export const ProjectsGrid: React.FC<{ projects: GridProject[] }> = ({ projects }
 
       {/* Grid */}
       <div className="px-6 lg:px-[52px] pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px]">
           {filtered.map((project) => (
             <Link
               key={project.slug}
               href={`/projects/${project.slug}`}
-              className="group no-underline"
+              className="relative aspect-[3/4] rounded-2xl overflow-hidden group no-underline"
             >
-              {/* Photo */}
-              <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
-                <Image
-                  src={project.preview}
-                  alt={project.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
+              <Image
+                src={project.preview}
+                alt={project.name}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-                {/* Logo centered on photo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-black/20 group-hover:bg-black/40 transition-colors duration-300 rounded-lg p-4">
-                    <Image
-                      src={project.logo}
-                      alt={`${project.name} logo`}
-                      width={140}
-                      height={70}
-                      className="object-contain max-w-[120px] md:max-w-[140px] max-h-[60px]"
-                    />
-                  </div>
-                </div>
+              <div className="absolute inset-0 z-10 flex items-center justify-center">
+                <Image
+                  src={project.logo}
+                  alt={`${project.name} logo`}
+                  width={180}
+                  height={100}
+                  className="object-contain max-w-[60%] max-h-[80px] md:max-h-[100px] drop-shadow-lg"
+                />
               </div>
 
-              {/* Info below photo */}
-              <div className="text-black">
-                <h3 className="text-[16px] md:text-[20px] leading-[1.1] font-normal uppercase mb-1">
-                  {project.name}
-                </h3>
-                <p className="text-[11px] md:text-[13px] leading-[1.3] font-normal uppercase text-black/50">
-                  {project.type} &middot; {project.city}, {project.country} &middot; {project.year}
+              <div className="absolute bottom-0 left-0 right-0 z-10 p-5">
+                <p className="text-[11px] leading-[14px] font-normal uppercase text-white/80 text-center">
+                  {project.type} &middot; {project.city} &middot; {project.year}
                 </p>
               </div>
             </Link>
