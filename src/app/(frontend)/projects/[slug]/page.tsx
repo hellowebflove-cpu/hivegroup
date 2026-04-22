@@ -88,9 +88,9 @@ export default async function ProjectPage({ params }: Args) {
 
         {/* Action buttons */}
         <div className="flex gap-3 mt-6">
-          {project.menuPdf && (
+          {(project.menuUrl || project.menuPdf) && (
             <a
-              href={getMediaUrl(project.menuPdf)}
+              href={project.menuUrl || getMediaUrl(project.menuPdf)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center h-[32px] px-4 border border-black rounded-full text-[12px] font-normal uppercase text-black no-underline hover:bg-black/5 transition-colors duration-200"
@@ -112,62 +112,128 @@ export default async function ProjectPage({ params }: Args) {
       </div>
       </div>
 
-      {/* Photo gallery — balanced masonry (shortest-column) */}
+      {/* Photo gallery — adaptive layout per count, fixed aspect tiles for clean rows */}
       {project.gallery && project.gallery.length > 0 && (() => {
         type GalleryItem = NonNullable<typeof project.gallery>[number]
         const gallery = project.gallery
-        const distribute = (count: number): GalleryItem[][] => {
-          const cols = Array.from({ length: count }, () => ({ h: 0, items: [] as GalleryItem[], idx: [] as number[] }))
-          // LPT scheduling — sort by aspect desc for balance, restore order within each column.
-          const indexed = gallery.map((item, i) => ({ item, i, asp: (item.image.height || 1) / (item.image.width || 1) }))
-          indexed.sort((a, b) => b.asp - a.asp)
-          for (const { item, i, asp } of indexed) {
-            const target = cols.reduce((a, b) => (a.h <= b.h ? a : b))
-            target.items.push(item)
-            target.idx.push(i)
-            target.h += asp
-          }
-          return cols.map((c) => {
-            const paired = c.items.map((it, k) => ({ it, i: c.idx[k] }))
-            paired.sort((a, b) => a.i - b.i)
-            return paired.map((p) => p.it)
-          })
-        }
-        const cols3 = distribute(3)
-        const cols2 = distribute(2)
-        const renderItem = (item: GalleryItem, key: string, sizes: string) => (
-          <div key={key} className="overflow-hidden">
+        const count = gallery.length
+
+        const Tile = ({ item, sizes, aspect }: { item: GalleryItem; sizes: string; aspect: string }) => (
+          <div className={`relative overflow-hidden ${aspect}`}>
             <Image
               src={getMediaUrl(item.image)}
               alt={item.image.alt || ''}
-              width={item.image.width || 800}
-              height={item.image.height || 1000}
-              className="w-full h-auto object-cover block"
+              fill
+              className="object-cover"
               sizes={sizes}
             />
           </div>
         )
+
+        const RowEl = ({ children }: { children: React.ReactNode }) => (
+          <div className="grid gap-[3px]" style={{ gridAutoFlow: 'column', gridAutoColumns: '1fr' }}>{children}</div>
+        )
+
+        // Build rows of tiles (each row = array of items + per-row sizes/aspect)
+        type RowDef = { items: GalleryItem[]; aspect: string; sizes: string }
+        const desktopRows: RowDef[] = (() => {
+          const A_FULL = 'aspect-[16/9]'
+          const A_HALF = 'aspect-[4/5]'
+          const A_THIRD = 'aspect-[4/5]'
+          const S_FULL = '100vw'
+          const S_HALF = '50vw'
+          const S_THIRD = '33vw'
+          const rows: RowDef[] = []
+          if (count === 1) {
+            rows.push({ items: [gallery[0]], aspect: A_FULL, sizes: S_FULL })
+          } else if (count === 2) {
+            rows.push({ items: gallery.slice(0, 2), aspect: A_HALF, sizes: S_HALF })
+          } else if (count === 3) {
+            rows.push({ items: gallery.slice(0, 2), aspect: A_HALF, sizes: S_HALF })
+            rows.push({ items: [gallery[2]], aspect: A_FULL, sizes: S_FULL })
+          } else if (count === 4) {
+            rows.push({ items: gallery.slice(0, 2), aspect: A_HALF, sizes: S_HALF })
+            rows.push({ items: gallery.slice(2, 4), aspect: A_HALF, sizes: S_HALF })
+          } else if (count === 5) {
+            rows.push({ items: gallery.slice(0, 2), aspect: A_HALF, sizes: S_HALF })
+            rows.push({ items: gallery.slice(2, 5), aspect: A_THIRD, sizes: S_THIRD })
+          } else if (count === 6) {
+            rows.push({ items: gallery.slice(0, 3), aspect: A_THIRD, sizes: S_THIRD })
+            rows.push({ items: gallery.slice(3, 6), aspect: A_THIRD, sizes: S_THIRD })
+          } else if (count === 7) {
+            rows.push({ items: gallery.slice(0, 2), aspect: A_HALF, sizes: S_HALF })
+            rows.push({ items: gallery.slice(2, 5), aspect: A_THIRD, sizes: S_THIRD })
+            rows.push({ items: gallery.slice(5, 7), aspect: A_HALF, sizes: S_HALF })
+          } else if (count === 8) {
+            rows.push({ items: gallery.slice(0, 3), aspect: A_THIRD, sizes: S_THIRD })
+            rows.push({ items: gallery.slice(3, 5), aspect: A_HALF, sizes: S_HALF })
+            rows.push({ items: gallery.slice(5, 8), aspect: A_THIRD, sizes: S_THIRD })
+          } else {
+            // 9+: chunk into rows of 3, with the last row balanced (1/2/3 wide)
+            let i = 0
+            while (i < count) {
+              const remaining = count - i
+              if (remaining >= 3) {
+                rows.push({ items: gallery.slice(i, i + 3), aspect: A_THIRD, sizes: S_THIRD })
+                i += 3
+              } else if (remaining === 2) {
+                rows.push({ items: gallery.slice(i, i + 2), aspect: A_HALF, sizes: S_HALF })
+                i += 2
+              } else {
+                rows.push({ items: [gallery[i]], aspect: A_FULL, sizes: S_FULL })
+                i += 1
+              }
+            }
+          }
+          return rows
+        })()
+
+        const tabletRows: RowDef[] = (() => {
+          // 2-column rhythm with full-width fallback for stragglers
+          const A_FULL = 'aspect-[16/9]'
+          const A_HALF = 'aspect-[4/5]'
+          const rows: RowDef[] = []
+          let i = 0
+          while (i < count) {
+            const remaining = count - i
+            if (remaining >= 2) {
+              rows.push({ items: gallery.slice(i, i + 2), aspect: A_HALF, sizes: '50vw' })
+              i += 2
+            } else {
+              rows.push({ items: [gallery[i]], aspect: A_FULL, sizes: '100vw' })
+              i += 1
+            }
+          }
+          return rows
+        })()
+
         return (
           <div className="bg-white px-0">
-            {/* lg: 3 balanced columns */}
-            <div className="hidden lg:flex gap-[3px] items-start">
-              {cols3.map((col, ci) => (
-                <div key={ci} className="flex-1 flex flex-col gap-[3px]">
-                  {col.map((item, i) => renderItem(item, `lg-${ci}-${i}`, '33vw'))}
-                </div>
+            {/* desktop (lg+) */}
+            <div className="hidden lg:flex flex-col gap-[3px]">
+              {desktopRows.map((row, ri) => (
+                <RowEl key={`lg-${ri}`}>
+                  {row.items.map((item, i) => (
+                    <Tile key={`lg-${ri}-${i}`} item={item} sizes={row.sizes} aspect={row.aspect} />
+                  ))}
+                </RowEl>
               ))}
             </div>
-            {/* md: 2 balanced columns */}
-            <div className="hidden md:flex lg:hidden gap-[3px] items-start">
-              {cols2.map((col, ci) => (
-                <div key={ci} className="flex-1 flex flex-col gap-[3px]">
-                  {col.map((item, i) => renderItem(item, `md-${ci}-${i}`, '50vw'))}
-                </div>
+            {/* tablet (md) */}
+            <div className="hidden md:flex lg:hidden flex-col gap-[3px]">
+              {tabletRows.map((row, ri) => (
+                <RowEl key={`md-${ri}`}>
+                  {row.items.map((item, i) => (
+                    <Tile key={`md-${ri}-${i}`} item={item} sizes={row.sizes} aspect={row.aspect} />
+                  ))}
+                </RowEl>
               ))}
             </div>
-            {/* mobile: 1 column in order */}
+            {/* mobile: single column, taller aspect */}
             <div className="flex md:hidden flex-col gap-[3px]">
-              {project.gallery.map((item, i) => renderItem(item, `sm-${i}`, '100vw'))}
+              {gallery.map((item, i) => (
+                <Tile key={`sm-${i}`} item={item} sizes="100vw" aspect="aspect-[4/5]" />
+              ))}
             </div>
           </div>
         )

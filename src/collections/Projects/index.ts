@@ -80,11 +80,18 @@ export const Projects: CollectionConfig<'projects'> = {
       },
     },
     {
+      name: 'menuUrl',
+      type: 'text',
+      admin: {
+        description: 'External menu link (preferred over PDF). Opens in a new tab.',
+      },
+    },
+    {
       name: 'menuPdf',
       type: 'upload',
       relationTo: 'media',
       admin: {
-        description: 'PDF menu file',
+        description: 'PDF menu file (fallback if no menuUrl)',
       },
     },
     {
