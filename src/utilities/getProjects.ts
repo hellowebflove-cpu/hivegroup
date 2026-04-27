@@ -36,6 +36,23 @@ export async function getProjectBySlug(slug: string): Promise<ProjectWithMedia |
   return (docs[0] as ProjectWithMedia) || null
 }
 
-export function getMediaUrl(media: Media): string {
+export function getMediaUrl(media: Media | null | undefined): string {
+  return media?.url || ''
+}
+
+type SizeName = 'thumbnail' | 'square' | 'small' | 'medium' | 'large' | 'xlarge'
+
+export function getMediaSizeUrl(
+  media: Media | null | undefined,
+  size: SizeName,
+  fallback: SizeName[] = [],
+): string {
+  if (!media) return ''
+  const sizes = (media as unknown as { sizes?: Record<string, { url?: string }> }).sizes
+  const candidates = [size, ...fallback]
+  for (const name of candidates) {
+    const url = sizes?.[name]?.url
+    if (url) return url
+  }
   return media.url || ''
 }

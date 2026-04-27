@@ -23,8 +23,11 @@ const nextConfig: NextConfig = {
       {
         pathname: '/media/**',
       },
+      {
+        pathname: '/logo/**',
+      },
     ],
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/webp'],
     qualities: [50, 65, 75, 82, 90, 100],
     deviceSizes: [360, 640, 750, 828, 1080, 1200, 1440, 1920],
     imageSizes: [16, 32, 64, 96, 128, 256, 384],

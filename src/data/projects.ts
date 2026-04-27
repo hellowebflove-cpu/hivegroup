@@ -51,7 +51,7 @@ export const projects: Project[] = [
     instagram: 'kiki.warszawa',
     menuPdf: '/projects/kiki/menu.pdf',
     description:
-      'Effortlessly stylish yet comfortably casual, Kiki brings a burst of joy to the table with its expertly crafted burgers and beautifully authentic cocktails. Whether you\'re in heels or trainers, you\'re always welcome at Kiki. Come for the flavours, stay for the atmosphere.',
+      'Effortlessly stylish yet comfortably casual, Kiki brings a burst of joy to the table with its expertly crafted burgers and beautifully authentic cocktails. Inspired by Warsaw\'s easy energy and a global love for honest comfort food, the menu balances familiar favourites with playful twists and seasonal accents. Whether you\'re in heels or trainers, you\'re always welcome at Kiki — come for the flavours, stay for the atmosphere.',
     gallery: [
       { src: '/projects/kiki/gallery/01-food-wraps.webp', alt: 'Kiki signature wraps' },
       { src: '/projects/kiki/gallery/02-interior-bar.webp', alt: 'Kiki bar interior' },

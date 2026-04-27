@@ -25,6 +25,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   const isDark = theme === 'dark'
   const textColor = isDark ? 'text-white' : 'text-black'
+  const isHome = pathname === '/'
 
   return (
     <header
@@ -33,19 +34,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     >
       <Link
         href="/contacts"
-        className="text-[15px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
+        className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
       >
         Contacts
       </Link>
-      <Link
-        href="/"
-        className="text-[15px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200 hidden md:block"
-      >
-        Hive Group&reg;
-      </Link>
+      {!isHome && (
+        <Link
+          href="/"
+          className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200 hidden md:block"
+        >
+          Hive Group&reg;
+        </Link>
+      )}
       <Link
         href="/projects"
-        className="text-[15px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
+        className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
       >
         Projects
       </Link>
