@@ -87,14 +87,6 @@ export const Projects: CollectionConfig<'projects'> = {
       },
     },
     {
-      name: 'menuPdf',
-      type: 'upload',
-      relationTo: 'media',
-      admin: {
-        description: 'PDF menu file (fallback if no menuUrl)',
-      },
-    },
-    {
       name: 'gallery',
       type: 'array',
       fields: [

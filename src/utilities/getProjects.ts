@@ -2,10 +2,9 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { Project, Media } from '@/payload-types'
 
-export type ProjectWithMedia = Omit<Project, 'logo' | 'preview' | 'menuPdf' | 'gallery'> & {
+export type ProjectWithMedia = Omit<Project, 'logo' | 'preview' | 'gallery'> & {
   logo: Media
   preview: Media
-  menuPdf?: Media | null
   gallery?:
     | {
         image: Media

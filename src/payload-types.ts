@@ -806,10 +806,6 @@ export interface Project {
    * External menu link (preferred over PDF). Opens in a new tab.
    */
   menuUrl?: string | null;
-  /**
-   * PDF menu file (fallback if no menuUrl)
-   */
-  menuPdf?: (number | null) | Media;
   gallery?:
     | {
         image: number | Media;
@@ -1422,7 +1418,6 @@ export interface ProjectsSelect<T extends boolean = true> {
   description?: T;
   instagram?: T;
   menuUrl?: T;
-  menuPdf?: T;
   gallery?:
     | T
     | {

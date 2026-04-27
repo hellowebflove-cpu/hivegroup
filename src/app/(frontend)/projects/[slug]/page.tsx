@@ -88,9 +88,9 @@ export default async function ProjectPage({ params }: Args) {
             )}
             {/* Action buttons */}
             <div className="flex gap-2 mt-2">
-              {(project.menuUrl || project.menuPdf) && (
+              {project.menuUrl && (
                 <a
-                  href={project.menuUrl || getMediaUrl(project.menuPdf)}
+                  href={project.menuUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center h-[26px] px-3 border border-black rounded-full text-[11px] font-normal uppercase text-black no-underline hover:bg-black/5 transition-colors duration-200"

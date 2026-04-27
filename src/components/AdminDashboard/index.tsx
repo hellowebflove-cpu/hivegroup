@@ -129,30 +129,6 @@ const AdminDashboard: React.FC = async () => {
         </section>
       )}
 
-      <section className="hg-dashboard__analytics">
-        <h2>Site analytics</h2>
-        <p>
-          Web Analytics and Speed Insights are wired into the site. Page views, top pages,
-          referrers and Core Web Vitals are tracked automatically — open the Vercel dashboard to
-          see live numbers.
-        </p>
-        <div className="hg-dashboard__analytics-links">
-          <a
-            href="https://vercel.com/hellowebflove-1429s-projects/hivegroup/analytics"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Web Analytics ↗
-          </a>
-          <a
-            href="https://vercel.com/hellowebflove-1429s-projects/hivegroup/speed-insights"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Speed Insights ↗
-          </a>
-        </div>
-      </section>
     </div>
   )
 }
