@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import React from 'react'
 
+import { fetchRecentDeployments, type Deployment } from './fetchDeployments'
+
 import './styles.scss'
 
 const fmtDate = (d?: string | null) => {
@@ -21,7 +23,7 @@ const fmtDate = (d?: string | null) => {
 const AdminDashboard: React.FC = async () => {
   const payload = await getPayload({ config: configPromise })
 
-  const [projects, pages, media, users, recentProjects, recentPages] = await Promise.all([
+  const [projects, pages, media, users, recentProjects, recentPages, deployments] = await Promise.all([
     payload.count({ collection: 'projects' }),
     payload.count({ collection: 'pages' }),
     payload.count({ collection: 'media' }),
@@ -40,6 +42,7 @@ const AdminDashboard: React.FC = async () => {
       depth: 0,
       pagination: false,
     }),
+    fetchRecentDeployments(5),
   ])
 
   return (
@@ -77,17 +80,54 @@ const AdminDashboard: React.FC = async () => {
       <section className="hg-dashboard__recent">
         <RecentBlock
           heading="Recently updated projects"
-          docs={recentProjects.docs}
+          docs={recentProjects.docs.map((p) => ({
+            id: p.id,
+            updatedAt: p.updatedAt,
+            title: (p as { name?: string; title?: string }).name || (p as { title?: string }).title || 'Untitled',
+          }))}
           basePath="/admin/collections/projects"
-          getTitle={(d) => (d as { name?: string; title?: string }).name || (d as { title?: string }).title || 'Untitled'}
         />
         <RecentBlock
           heading="Recently updated pages"
-          docs={recentPages.docs}
+          docs={recentPages.docs.map((p) => ({
+            id: p.id,
+            updatedAt: p.updatedAt,
+            title: (p as { title?: string }).title || 'Untitled',
+          }))}
           basePath="/admin/collections/pages"
-          getTitle={(d) => (d as { title?: string }).title || 'Untitled'}
         />
       </section>
+
+      {deployments && deployments.length > 0 && (
+        <section className="hg-deployments">
+          <header>
+            <h2>Recent deployments</h2>
+            <a
+              href="https://vercel.com/hellowebflove-1429s-projects/hivegroup/deployments"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              All deployments ↗
+            </a>
+          </header>
+          <ul>
+            {deployments.map((d) => (
+              <li key={d.uid}>
+                <span className={`hg-deployments__state hg-deployments__state--${d.state.toLowerCase()}`}>
+                  {d.state === 'READY' ? '● Ready' : d.state === 'ERROR' ? '● Error' : d.state === 'BUILDING' ? '● Building' : `● ${d.state}`}
+                </span>
+                <a href={`https://${d.url}`} target="_blank" rel="noopener noreferrer" className="hg-deployments__msg">
+                  {d.commitMessage || d.url}
+                </a>
+                <span className="hg-deployments__meta">
+                  {d.branch && <span>{d.branch}</span>}
+                  <span>{fmtDate(new Date(d.created).toISOString())}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className="hg-dashboard__analytics">
         <h2>Site analytics</h2>
@@ -146,14 +186,13 @@ const ActionCard: React.FC<{ title: string; description: string; href: string }>
   </Link>
 )
 
-type RecentDoc = { id: string | number; updatedAt?: string | null; [k: string]: unknown }
+type RecentDoc = { id: string | number; updatedAt?: string | null; title: string }
 
 const RecentBlock: React.FC<{
   heading: string
   docs: RecentDoc[]
   basePath: string
-  getTitle: (d: RecentDoc) => string
-}> = ({ heading, docs, basePath, getTitle }) => (
+}> = ({ heading, docs, basePath }) => (
   <div className="hg-recent">
     <h2>{heading}</h2>
     {docs.length === 0 ? (
@@ -163,7 +202,7 @@ const RecentBlock: React.FC<{
         {docs.map((doc) => (
           <li key={doc.id}>
             <Link href={`${basePath}/${doc.id}`}>
-              <span className="hg-recent__title">{getTitle(doc)}</span>
+              <span className="hg-recent__title">{doc.title}</span>
               <span className="hg-recent__meta">{fmtDate(doc.updatedAt)}</span>
             </Link>
           </li>
