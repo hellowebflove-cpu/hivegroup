@@ -14,7 +14,13 @@ type Item = {
   logo: string
 }
 
-export function ProjectsCarousel({ items }: { items: Item[] }) {
+type Heading = {
+  prefix: string
+  linkText: string
+  linkUrl: string
+}
+
+export function ProjectsCarousel({ items, heading }: { items: Item[]; heading: Heading }) {
   const scrollerRef = useRef<HTMLDivElement>(null)
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(true)
@@ -50,12 +56,12 @@ export function ProjectsCarousel({ items }: { items: Item[] }) {
     <div className="relative">
       <div className="flex items-end justify-between gap-6 px-6 lg:px-[52px] mb-8">
         <h2 className="text-[24px] md:text-[40px] leading-[1] font-normal uppercase text-black tracking-[-0.8px]">
-          Discover{' '}
+          {heading.prefix}{' '}
           <Link
-            href="/projects"
+            href={heading.linkUrl}
             className="underline underline-offset-4 decoration-[2px] text-black no-underline-hover hover:opacity-70 transition-opacity"
           >
-            all our projects
+            {heading.linkText}
           </Link>
         </h2>
         <div className="hidden md:flex items-center gap-3 shrink-0">

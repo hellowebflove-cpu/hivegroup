@@ -9,7 +9,7 @@ export const HomePage: GlobalConfig = {
   },
   admin: {
     description:
-      'Editable copy for the home page (hero, services, mission). Layout is fixed in code.',
+      'Editable copy for the home page (hero, services, mission, projects heading). Layout is fixed in code.',
   },
   fields: [
     {
@@ -48,6 +48,33 @@ export const HomePage: GlobalConfig = {
       admin: {
         description: 'Paragraph shown below the services list.',
         rows: 4,
+      },
+    },
+    {
+      name: 'projectsHeadingPrefix',
+      label: 'Projects heading — text before link',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'E.g. "Discover".',
+      },
+    },
+    {
+      name: 'projectsHeadingLinkText',
+      label: 'Projects heading — link text',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'Underlined part. E.g. "all our projects".',
+      },
+    },
+    {
+      name: 'projectsHeadingLinkUrl',
+      label: 'Projects heading — link URL',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'Where the underlined link points. E.g. "/projects".',
       },
     },
   ],

@@ -114,10 +114,12 @@ export interface Config {
   globals: {
     header: Header;
     'home-page': HomePage;
+    'site-footer': SiteFooter;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'site-footer': SiteFooterSelect<false> | SiteFooterSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1737,7 +1739,7 @@ export interface Header {
   createdAt?: string | null;
 }
 /**
- * Editable copy for the home page (hero, services, mission). Layout is fixed in code.
+ * Editable copy for the home page (hero, services, mission, projects heading). Layout is fixed in code.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page".
@@ -1761,6 +1763,68 @@ export interface HomePage {
    * Paragraph shown below the services list.
    */
   missionText: string;
+  /**
+   * E.g. "Discover".
+   */
+  projectsHeadingPrefix: string;
+  /**
+   * Underlined part. E.g. "all our projects".
+   */
+  projectsHeadingLinkText: string;
+  /**
+   * Where the underlined link points. E.g. "/projects".
+   */
+  projectsHeadingLinkUrl: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Editable copy for the global site footer (about, CTA, contacts).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-footer".
+ */
+export interface SiteFooter {
+  id: number;
+  /**
+   * Centered paragraphs above the CTA button.
+   */
+  aboutParagraphs?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  ctaText: string;
+  /**
+   * Internal path or external URL. E.g. "/projects".
+   */
+  ctaUrl: string;
+  /**
+   * Large heading. E.g. "Let's cooperate".
+   */
+  cooperationHeading: string;
+  /**
+   * Each row renders as one item in the contacts row at the bottom.
+   */
+  contacts?:
+    | {
+        /**
+         * Optional. E.g. "Work in Hive". Leave empty for handle-only entries like Instagram.
+         */
+        label?: string | null;
+        /**
+         * E.g. "hr.hivegroup@gmail.com" or "@hivegroup.ltd".
+         */
+        linkText: string;
+        /**
+         * E.g. "mailto:hr.hivegroup@gmail.com" or "https://instagram.com/hivegroup.ltd".
+         */
+        linkUrl: string;
+        opensInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1800,6 +1864,36 @@ export interface HomePageSelect<T extends boolean = true> {
         id?: T;
       };
   missionText?: T;
+  projectsHeadingPrefix?: T;
+  projectsHeadingLinkText?: T;
+  projectsHeadingLinkUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-footer_select".
+ */
+export interface SiteFooterSelect<T extends boolean = true> {
+  aboutParagraphs?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  ctaText?: T;
+  ctaUrl?: T;
+  cooperationHeading?: T;
+  contacts?:
+    | T
+    | {
+        label?: T;
+        linkText?: T;
+        linkUrl?: T;
+        opensInNewTab?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

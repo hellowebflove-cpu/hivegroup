@@ -1,24 +1,90 @@
 import React from 'react'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
-export const SiteFooter: React.FC = () => {
+const FALLBACK = {
+  paragraphs: [
+    'We have a strong intuition for understanding what our guests want and we strive to blend this insight with our passion for quality, comfort and creativity.',
+    'Our journey is about building connections, crafting experiences, and making place where everyone feels welcome.',
+  ],
+  ctaText: 'See all projects',
+  ctaUrl: '/projects',
+  cooperationHeading: "Let's cooperate",
+  contacts: [
+    {
+      label: 'Work in Hive',
+      linkText: 'hr.hivegroup@gmail.com',
+      linkUrl: 'mailto:hr.hivegroup@gmail.com',
+      opensInNewTab: false,
+    },
+    {
+      label: 'Invest with us',
+      linkText: 'hi.hivegroup@gmail.com',
+      linkUrl: 'mailto:hi.hivegroup@gmail.com',
+      opensInNewTab: false,
+    },
+    {
+      label: null as string | null,
+      linkText: '@hivegroup.ltd',
+      linkUrl: 'https://instagram.com/hivegroup.ltd',
+      opensInNewTab: true,
+    },
+  ],
+}
+
+type FooterData = {
+  aboutParagraphs?: { text: string }[] | null
+  ctaText?: string | null
+  ctaUrl?: string | null
+  cooperationHeading?: string | null
+  contacts?:
+    | {
+        label?: string | null
+        linkText: string
+        linkUrl: string
+        opensInNewTab?: boolean | null
+      }[]
+    | null
+}
+
+export const SiteFooter: React.FC = async () => {
+  const data = (await getCachedGlobal('site-footer', 1)().catch(() => null)) as FooterData | null
+
+  const paragraphs =
+    data?.aboutParagraphs?.length
+      ? data.aboutParagraphs.map((p) => p.text).filter(Boolean)
+      : FALLBACK.paragraphs
+  const ctaText = data?.ctaText?.trim() || FALLBACK.ctaText
+  const ctaUrl = data?.ctaUrl?.trim() || FALLBACK.ctaUrl
+  const cooperationHeading = data?.cooperationHeading?.trim() || FALLBACK.cooperationHeading
+  const contacts =
+    data?.contacts?.length
+      ? data.contacts.map((c) => ({
+          label: c.label?.trim() || null,
+          linkText: c.linkText,
+          linkUrl: c.linkUrl,
+          opensInNewTab: !!c.opensInNewTab,
+        }))
+      : FALLBACK.contacts
+
   return (
     <footer className="bg-white text-black">
       {/* About text + CTA */}
       <div className="flex flex-col items-center text-center px-6 lg:px-[52px] pt-24 pb-20">
-        <p className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase max-w-[700px] mb-4">
-          We have a strong intuition for understanding what our guests want
-          and we strive to blend this insight with our passion
-          for quality, comfort and creativity.
-        </p>
-        <p className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase max-w-[700px] mb-10">
-          Our journey is about building connections, crafting
-          experiences, and making place where everyone feels welcome.
-        </p>
+        {paragraphs.map((text, i) => (
+          <p
+            key={i}
+            className={`text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase max-w-[700px] ${
+              i === paragraphs.length - 1 ? 'mb-10' : 'mb-4'
+            }`}
+          >
+            {text}
+          </p>
+        ))}
         <a
-          href="/projects"
+          href={ctaUrl}
           className="inline-flex items-center justify-center h-[37px] px-5 border border-black rounded-full text-[15px] font-normal uppercase text-black hover:bg-black/5 transition-colors duration-200 no-underline"
         >
-          See all projects
+          {ctaText}
         </a>
       </div>
 
@@ -28,42 +94,32 @@ export const SiteFooter: React.FC = () => {
       {/* LET'S COOPERATE */}
       <div className="px-6 lg:px-[52px] pt-16 pb-8">
         <h2 className="text-[28px] md:text-[46px] leading-[1] font-normal uppercase tracking-normal mb-8">
-          Let&apos;s cooperate
+          {cooperationHeading}
         </h2>
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase">
-              Work in Hive
-            </span>
-            <a
-              href="mailto:hr.hivegroup@gmail.com"
-              className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase underline underline-offset-2 decoration-1 hover:opacity-70 transition-opacity duration-200"
-            >
-              hr.hivegroup@gmail.com
-            </a>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase">
-              Invest with us
-            </span>
-            <a
-              href="mailto:hi.hivegroup@gmail.com"
-              className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase underline underline-offset-2 decoration-1 hover:opacity-70 transition-opacity duration-200"
-            >
-              hi.hivegroup@gmail.com
-            </a>
-          </div>
-
-          <a
-            href="https://instagram.com/hivegroup.ltd"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
-          >
-            @hivegroup.ltd
-          </a>
+          {contacts.map((c, i) => (
+            <div key={i} className="flex items-center gap-2">
+              {c.label && (
+                <span className="text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase">
+                  {c.label}
+                </span>
+              )}
+              <a
+                href={c.linkUrl}
+                {...(c.opensInNewTab
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+                className={`text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase ${
+                  c.label
+                    ? 'underline underline-offset-2 decoration-1 hover:opacity-70'
+                    : 'no-underline hover:opacity-70'
+                } transition-opacity duration-200`}
+              >
+                {c.linkText}
+              </a>
+            </div>
+          ))}
         </div>
       </div>
 

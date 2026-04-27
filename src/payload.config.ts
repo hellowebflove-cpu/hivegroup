@@ -12,6 +12,7 @@ import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
 import { Header } from './Header/config'
 import { HomePage } from './globals/HomePage/config'
+import { SiteFooter } from './globals/SiteFooter/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -81,7 +82,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, HomePage],
+  globals: [Header, HomePage, SiteFooter],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
