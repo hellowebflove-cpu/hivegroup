@@ -10,7 +10,6 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
-import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -21,13 +20,24 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    meta: {
+      title: 'Admin Panel',
+      titleSuffix: ' — Hive Group',
+      description: 'Hive Group admin panel',
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          url: '/favicon.png',
+        },
+      ],
+    },
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      graphics: {
+        Icon: '@/components/AdminGraphics/Icon',
+        Logo: '@/components/AdminGraphics/Logo',
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -65,7 +75,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
