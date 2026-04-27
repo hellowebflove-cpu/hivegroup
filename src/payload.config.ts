@@ -38,6 +38,11 @@ export default buildConfig({
         Icon: '@/components/AdminGraphics/Icon',
         Logo: '@/components/AdminGraphics/Logo',
       },
+      views: {
+        dashboard: {
+          Component: '@/components/AdminDashboard',
+        },
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
