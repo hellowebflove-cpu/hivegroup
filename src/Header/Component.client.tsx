@@ -10,6 +10,12 @@ interface HeaderClientProps {
   data: Header
 }
 
+const FALLBACK = {
+  left: { text: 'Contacts', url: '/contacts' },
+  center: { text: 'Hive Group®', url: '/' },
+  right: { text: 'Projects', url: '/projects' },
+}
+
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -27,30 +33,43 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const textColor = isDark ? 'text-white' : 'text-black'
   const isHome = pathname === '/'
 
+  const left = {
+    text: data.leftLink?.text?.trim() || FALLBACK.left.text,
+    url: data.leftLink?.url?.trim() || FALLBACK.left.url,
+  }
+  const center = {
+    text: data.centerLink?.text?.trim() || FALLBACK.center.text,
+    url: data.centerLink?.url?.trim() || FALLBACK.center.url,
+  }
+  const right = {
+    text: data.rightLink?.text?.trim() || FALLBACK.right.text,
+    url: data.rightLink?.url?.trim() || FALLBACK.right.url,
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-between px-8 lg:px-[52px] ${textColor}`}
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <Link
-        href="/contacts"
+        href={left.url}
         className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
       >
-        Contacts
+        {left.text}
       </Link>
       {!isHome && (
         <Link
-          href="/"
+          href={center.url}
           className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200 hidden md:block"
         >
-          Hive Group&reg;
+          {center.text}
         </Link>
       )}
       <Link
-        href="/projects"
+        href={right.url}
         className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
       >
-        Projects
+        {right.text}
       </Link>
     </header>
   )

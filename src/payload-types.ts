@@ -1710,11 +1710,37 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Top navigation bar links (left, center, right).
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
   id: number;
+  leftLink: {
+    text: string;
+    /**
+     * E.g. "/contacts".
+     */
+    url: string;
+  };
+  centerLink: {
+    text: string;
+    /**
+     * E.g. "/".
+     */
+    url: string;
+  };
+  rightLink: {
+    text: string;
+    /**
+     * E.g. "/projects".
+     */
+    url: string;
+  };
+  /**
+   * Legacy field, not rendered. Use the three link fields above.
+   */
   navItems?:
     | {
         link: {
@@ -1833,6 +1859,24 @@ export interface SiteFooter {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  leftLink?:
+    | T
+    | {
+        text?: T;
+        url?: T;
+      };
+  centerLink?:
+    | T
+    | {
+        text?: T;
+        url?: T;
+      };
+  rightLink?:
+    | T
+    | {
+        text?: T;
+        url?: T;
+      };
   navItems?:
     | T
     | {
