@@ -18,7 +18,6 @@ export const Logo: React.FC = () => {
           width: 'auto',
           height: 64,
           objectFit: 'contain',
-          filter: 'invert(1) brightness(2)',
         }}
       />
       <span

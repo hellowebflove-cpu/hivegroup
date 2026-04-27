@@ -10,7 +10,6 @@ export const Icon: React.FC = () => {
         width: 32,
         height: 'auto',
         objectFit: 'contain',
-        filter: 'invert(1) brightness(2)',
       }}
     />
   )
