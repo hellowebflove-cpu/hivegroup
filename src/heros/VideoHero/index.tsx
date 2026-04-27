@@ -28,7 +28,7 @@ export const VideoHero: React.FC = () => {
       <ScrollLogo />
 
       <div className="absolute left-1/2 -translate-x-1/2 z-10 text-center text-white px-6 top-[42vh]">
-        <p className="text-[11px] md:text-[11px] font-normal uppercase leading-[13px] tracking-normal max-w-[760px]">
+        <p className="text-[14px] md:text-[16px] font-normal uppercase leading-[1.4] tracking-normal max-w-[820px]">
           Creation of unique restaurant concepts worldwide.
           We combine cutting-edge ideas, creativity and expertise to craft spaces,
           where guests can enjoy atmosphere and flavor. Our restaurants are places
