@@ -113,9 +113,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     header: Header;
+    'home-page': HomePage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1735,6 +1737,34 @@ export interface Header {
   createdAt?: string | null;
 }
 /**
+ * Editable copy for the home page (hero, services, mission). Layout is fixed in code.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  /**
+   * Shown on the hero video. Use blank lines for paragraph breaks; single newlines = line breaks.
+   */
+  heroSubtitle: string;
+  /**
+   * Each row is one line in the centered services list.
+   */
+  services?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Paragraph shown below the services list.
+   */
+  missionText: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -1753,6 +1783,23 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  heroSubtitle?: T;
+  services?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  missionText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

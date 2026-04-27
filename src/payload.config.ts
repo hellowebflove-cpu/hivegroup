@@ -11,6 +11,7 @@ import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
 import { Header } from './Header/config'
+import { HomePage } from './globals/HomePage/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -80,7 +81,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header],
+  globals: [Header, HomePage],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
