@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
+import { useHeaderTheme } from '@/providers/HeaderTheme'
 
 const SCROLL_RANGE = 150
 const FINAL_SCALE = 0.45
@@ -9,13 +10,20 @@ const FINAL_TOP_PX = 12
 export const ScrollLogo: React.FC = () => {
   const [progress, setProgress] = useState(0)
   const [viewportH, setViewportH] = useState<number | null>(null)
+  const [isOnLight, setIsOnLight] = useState(false)
   const rafRef = useRef<number | null>(null)
+  const { setHeaderTheme } = useHeaderTheme()
 
   useEffect(() => {
     const update = () => {
+      const vh = window.innerHeight
       const p = Math.min(Math.max(window.scrollY / SCROLL_RANGE, 0), 1)
       setProgress(p)
-      setViewportH(window.innerHeight)
+      setViewportH(vh)
+      // Switch to "light bg" mode once we've scrolled past ~80% of the hero
+      const onLight = window.scrollY > vh * 0.8
+      setIsOnLight(onLight)
+      setHeaderTheme(onLight ? 'light' : 'dark')
       rafRef.current = null
     }
     const onScroll = () => {
@@ -29,7 +37,7 @@ export const ScrollLogo: React.FC = () => {
       window.removeEventListener('resize', update)
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
     }
-  }, [])
+  }, [setHeaderTheme])
 
   if (viewportH == null) return null
 
@@ -54,7 +62,8 @@ export const ScrollLogo: React.FC = () => {
           alt="Hive Group"
           width={878}
           height={127}
-          className="block w-[280px] md:w-[491px] h-auto"
+          className="block w-[280px] md:w-[491px] h-auto transition-[filter] duration-300"
+          style={{ filter: isOnLight ? 'invert(1)' : 'none' }}
         />
       </h1>
     </div>

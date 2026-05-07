@@ -26,7 +26,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [pathname])
 
   useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
+    if (headerTheme !== theme) setTheme(headerTheme || null)
   }, [headerTheme])
 
   const isDark = theme === 'dark'
@@ -48,7 +48,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-start pt-[33px] justify-between px-8 lg:px-[52px] ${textColor}`}
+      className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-start pt-[33px] justify-between px-8 lg:px-[52px] transition-colors duration-300 ${textColor}`}
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <Link
