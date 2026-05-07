@@ -161,7 +161,7 @@ export function ProjectsCarousel({ items, heading }: { items: Item[]; heading: H
             data-card
             draggable={false}
             onDragStart={(e) => e.preventDefault()}
-            className="relative shrink-0 snap-start aspect-[3/4] rounded-2xl overflow-hidden group no-underline w-[78%] sm:w-[55%] md:w-[40%] lg:w-[calc((100%-90px)/3.4)]"
+            className="relative shrink-0 snap-center md:snap-start aspect-[3/4] rounded-2xl overflow-hidden group no-underline w-[78%] sm:w-[55%] md:w-[40%] lg:w-[calc((100%-90px)/3.4)]"
           >
             <Image
               src={project.preview}
