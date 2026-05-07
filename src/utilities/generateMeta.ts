@@ -5,10 +5,14 @@ import type { Media, Page, Post, Config } from '../payload-types'
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 
+const FALLBACK_TITLE = 'Hive Group — Restaurant Concept Development'
+const FALLBACK_DESCRIPTION =
+  'Hive Group creates unique restaurant concepts worldwide. We blend cutting-edge ideas, creativity and expertise to craft spaces where guests enjoy atmosphere, flavor and unforgettable experiences.'
+
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
 
-  let url = serverUrl + '/favicon.png'
+  let url = serverUrl + '/og-image.png'
 
   if (image && typeof image === 'object' && 'url' in image) {
     const ogUrl = image.sizes?.og?.url
@@ -26,8 +30,8 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title ? `${doc?.meta?.title} | Hive Group` : 'Hive Group'
-  const description = doc?.meta?.description || 'Unique restaurant concepts'
+  const title = doc?.meta?.title ? `${doc?.meta?.title} | Hive Group` : FALLBACK_TITLE
+  const description = doc?.meta?.description || FALLBACK_DESCRIPTION
 
   return {
     description,

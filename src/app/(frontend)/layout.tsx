@@ -46,23 +46,29 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 }
 
+const SITE_TITLE = 'Hive Group — Restaurant Concept Development'
+const SITE_DESCRIPTION =
+  'Hive Group creates unique restaurant concepts worldwide. We blend cutting-edge ideas, creativity and expertise to craft spaces where guests enjoy atmosphere, flavor and unforgettable experiences.'
+
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
-    default: 'Hive Group',
+    default: SITE_TITLE,
     template: '%s | Hive Group',
   },
-  description: 'Unique restaurant concepts',
+  description: SITE_DESCRIPTION,
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png' },
-    ],
+    icon: [{ url: '/favicon.png', type: 'image/png' }],
     apple: '/apple-touch-icon.png',
   },
-  openGraph: mergeOpenGraph(),
+  openGraph: mergeOpenGraph({
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  }),
   twitter: {
     card: 'summary_large_image',
-    title: 'Hive Group',
-    description: 'Unique restaurant concepts',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ['/og-image.png'],
   },
 }

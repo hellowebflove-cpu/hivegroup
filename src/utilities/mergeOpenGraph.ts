@@ -3,14 +3,15 @@ import { getServerSideURL } from './getURL'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
-  description: 'Unique restaurant concepts',
+  description:
+    'Hive Group creates unique restaurant concepts worldwide. We blend cutting-edge ideas, creativity and expertise to craft spaces where guests enjoy atmosphere, flavor and unforgettable experiences.',
   images: [
     {
-      url: `${getServerSideURL()}/favicon.png`,
+      url: `${getServerSideURL()}/og-image.png`,
     },
   ],
   siteName: 'Hive Group',
-  title: 'Hive Group',
+  title: 'Hive Group — Restaurant Concept Development',
 }
 
 export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {
