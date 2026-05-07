@@ -149,19 +149,11 @@ export default async function ProjectPage({ params }: Args) {
             {prev ? (
               <Link
                 href={`/projects/${prev.slug}`}
-                className="group flex items-center gap-4 no-underline text-black"
+                className="group flex items-center no-underline text-black"
               >
-                <span className="text-[11px] leading-[14px] font-normal uppercase text-black/60 group-hover:text-black transition-colors">
+                <span className="text-[14px] leading-[1.2] font-normal uppercase text-black/60 group-hover:text-black transition-colors">
                   ← Previous
                 </span>
-                <Image
-                  src={getMediaUrl(prev.logo)}
-                  alt={prev.name}
-                  width={160}
-                  height={64}
-                  style={{ maxHeight: logoMaxH(prev.slug) }}
-                  className="object-contain w-auto [filter:brightness(0)] opacity-80 group-hover:opacity-100 transition-opacity"
-                />
               </Link>
             ) : (
               <span />
@@ -169,17 +161,9 @@ export default async function ProjectPage({ params }: Args) {
             {next ? (
               <Link
                 href={`/projects/${next.slug}`}
-                className="group flex items-center justify-end gap-4 no-underline text-black"
+                className="group flex items-center justify-end no-underline text-black"
               >
-                <Image
-                  src={getMediaUrl(next.logo)}
-                  alt={next.name}
-                  width={160}
-                  height={64}
-                  style={{ maxHeight: logoMaxH(next.slug) }}
-                  className="object-contain w-auto [filter:brightness(0)] opacity-80 group-hover:opacity-100 transition-opacity"
-                />
-                <span className="text-[11px] leading-[14px] font-normal uppercase text-black/60 group-hover:text-black transition-colors">
+                <span className="text-[14px] leading-[1.2] font-normal uppercase text-black/60 group-hover:text-black transition-colors">
                   Next →
                 </span>
               </Link>
