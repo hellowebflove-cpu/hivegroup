@@ -36,7 +36,7 @@ export const ServicesSection = async () => {
         ))}
       </div>
 
-      <p className="mt-[60px] text-[14px] leading-[1] font-normal uppercase text-black text-center max-w-[1200px]">
+      <p className="mt-[60px] text-[14px] leading-[1.2] font-normal uppercase text-black text-center max-w-[1200px]">
         {mission.split('\n').map((line, i, arr) => (
           <React.Fragment key={i}>
             {line.trim()}

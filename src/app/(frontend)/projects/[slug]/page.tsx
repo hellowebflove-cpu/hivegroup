@@ -77,23 +77,23 @@ export default async function ProjectPage({ params }: Args) {
         </div>
 
       {/* Info bar */}
-      <div className="bg-white px-5 lg:px-[44px] py-5 shrink-0">
+      <div className="bg-white px-5 lg:px-[44px] py-[20px] shrink-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
           {/* Description */}
           <div className="md:col-span-2">
             {project.description && (
-              <p className="text-[11px] md:text-[12px] leading-[1.25] font-normal uppercase text-black max-w-[820px]">
+              <p className="text-[14px] leading-[1.2] font-normal uppercase text-black max-w-[820px]">
                 {project.description}
               </p>
             )}
             {/* Action buttons */}
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-3">
               {project.menuUrl && (
                 <a
                   href={project.menuUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center h-[26px] px-3 border border-black rounded-full text-[11px] font-normal uppercase text-black no-underline hover:bg-black/5 transition-colors duration-200"
+                  className="inline-flex items-center justify-center h-[30px] px-4 border border-black rounded-full text-[14px] font-normal uppercase text-black no-underline hover:bg-black/5 transition-colors duration-200"
                 >
                   View menu
                 </a>
@@ -103,7 +103,7 @@ export default async function ProjectPage({ params }: Args) {
                   href={`https://instagram.com/${project.instagram}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center h-[26px] px-3 border border-black rounded-full text-[11px] font-normal uppercase text-black no-underline hover:bg-black/5 transition-colors duration-200"
+                  className="inline-flex items-center justify-center h-[30px] px-4 border border-black rounded-full text-[14px] font-normal uppercase text-black no-underline hover:bg-black/5 transition-colors duration-200"
                 >
                   Instagram
                 </a>
@@ -112,7 +112,7 @@ export default async function ProjectPage({ params }: Args) {
           </div>
 
           {/* Meta */}
-          <div className="flex flex-col gap-1.5 text-[11px] md:text-[13px] leading-[1.2] font-normal uppercase text-black md:text-right">
+          <div className="flex flex-col gap-1.5 text-[14px] leading-[1.2] font-normal uppercase text-black md:text-right">
             <p>{project.city}, {project.country}</p>
             <p>{project.year}</p>
             {project.instagram && (

@@ -60,9 +60,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {!isHome && (
         <Link
           href={center.url}
-          className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200 hidden md:block"
+          aria-label="Hive Group"
+          className="absolute left-1/2 -translate-x-1/2 top-[12px] hidden md:block hover:opacity-70 transition-opacity duration-200"
         >
-          {center.text}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo/hive-group.png"
+            alt="Hive Group"
+            width={878}
+            height={127}
+            className="block w-[221px] h-auto"
+            style={{ filter: isDark ? 'none' : 'invert(1)' }}
+            draggable={false}
+          />
         </Link>
       )}
       <Link

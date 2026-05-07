@@ -70,16 +70,28 @@ export const SiteFooter: React.FC = async () => {
     <footer className="bg-white text-black">
       {/* About text + CTA */}
       <div className="flex flex-col items-center text-center px-6 lg:px-[52px] pt-24 pb-20">
-        {paragraphs.map((text, i) => (
-          <p
-            key={i}
-            className={`text-[13px] md:text-[15px] leading-[1.18] font-normal uppercase max-w-[700px] ${
-              i === paragraphs.length - 1 ? 'mb-10' : 'mb-4'
-            }`}
-          >
-            {text}
-          </p>
-        ))}
+        {paragraphs.map((text, i) => {
+          const broken = text
+            .replace(/\s+/g, ' ')
+            .replace(/(guests want and)\s+/i, '$1\n')
+            .replace(/(our passion)\s+/i, '$1\n')
+            .replace(/(connections, crafting)\s+/i, '$1\n')
+          return (
+            <p
+              key={i}
+              className={`text-[14px] leading-[1.2] font-normal uppercase max-w-[1200px] ${
+                i === paragraphs.length - 1 ? 'mb-10' : 'mb-4'
+              }`}
+            >
+              {broken.split('\n').map((line, li, arr) => (
+                <React.Fragment key={li}>
+                  {line.trim()}
+                  {li < arr.length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </p>
+          )
+        })}
         <a
           href={ctaUrl}
           className="inline-flex items-center justify-center h-[37px] px-5 border border-black rounded-full text-[15px] font-normal uppercase text-black hover:bg-black/5 transition-colors duration-200 no-underline"
@@ -88,12 +100,9 @@ export const SiteFooter: React.FC = async () => {
         </a>
       </div>
 
-      {/* Divider */}
-      <div className="mx-6 lg:mx-[52px] border-t border-black/10" />
-
       {/* LET'S COOPERATE */}
-      <div className="px-6 lg:px-[52px] pt-16 pb-8">
-        <h2 className="text-[28px] md:text-[46px] leading-[1] font-normal uppercase tracking-normal mb-8">
+      <div className="px-6 lg:px-[52px] pt-8 pb-8">
+        <h2 className="text-[28px] md:text-[46px] leading-[1] font-normal uppercase tracking-normal mb-3">
           {cooperationHeading}
         </h2>
 
