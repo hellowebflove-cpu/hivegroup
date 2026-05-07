@@ -10,21 +10,11 @@ where guests can enjoy atmosphere and flavor. Our restaurants are places
 to dine, spaces for interaction and unforgettable experiences.`
 
 const renderSubtitle = (raw: string) => {
-  const blocks = raw.split(/\n{2,}/)
-  return blocks.map((block, bi) => (
-    <React.Fragment key={bi}>
-      {block.split('\n').map((line, li, arr) => (
-        <React.Fragment key={li}>
-          {line}
-          {li < arr.length - 1 && <br />}
-        </React.Fragment>
-      ))}
-      {bi < blocks.length - 1 && (
-        <>
-          <br />
-          <br />
-        </>
-      )}
+  const lines = raw.split('\n').map((l) => l.trim()).filter(Boolean)
+  return lines.map((line, i) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < lines.length - 1 && <br />}
     </React.Fragment>
   ))
 }
@@ -52,8 +42,11 @@ export const VideoHero = async () => {
 
       <ScrollLogo />
 
-      <div className="absolute left-1/2 -translate-x-1/2 z-10 text-center text-white px-6 top-[42vh]">
-        <p className="text-[11px] font-normal uppercase leading-[13px] tracking-normal max-w-[760px]">
+      <div
+        className="absolute left-1/2 -translate-x-1/2 z-10 text-center text-white px-6 w-full max-w-[720px]"
+        style={{ top: 'calc(29.5vh + 141px)' }}
+      >
+        <p className="text-[14px] font-normal uppercase leading-snug">
           {renderSubtitle(subtitle)}
         </p>
       </div>

@@ -34,7 +34,7 @@ export const ScrollLogo: React.FC = () => {
   if (viewportH == null) return null
 
   const scale = 1 - (1 - FINAL_SCALE) * progress
-  const initialTopPx = viewportH * INITIAL_TOP_VH
+  const initialTopPx = viewportH * INITIAL_TOP_VH + 40
   const top = initialTopPx + (FINAL_TOP_PX - initialTopPx) * progress
 
   return (
