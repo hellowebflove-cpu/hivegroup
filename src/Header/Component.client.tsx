@@ -48,36 +48,54 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-start pt-[33px] justify-between px-8 lg:px-[52px] transition-colors duration-300 ${textColor}`}
+      className={`fixed top-0 left-0 right-0 z-50 h-14 flex items-start pt-[22px] md:pt-[33px] justify-between px-5 md:px-8 lg:px-[52px] transition-colors duration-300 ${textColor}`}
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <Link
         href={left.url}
-        className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
+        className="text-[12px] md:text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
       >
         {left.text}
       </Link>
       {!isHome && (
-        <Link
-          href={center.url}
-          aria-label="Hive Group"
-          className="absolute left-1/2 -translate-x-1/2 top-[12px] hidden md:block hover:opacity-70 transition-opacity duration-200"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo/hive-group.png"
-            alt="Hive Group"
-            width={878}
-            height={127}
-            className="block w-[221px] h-auto"
-            style={{ filter: isDark ? 'none' : 'invert(1)' }}
-            draggable={false}
-          />
-        </Link>
+        <>
+          <Link
+            href={center.url}
+            aria-label="Hive Group"
+            className="md:hidden hover:opacity-70 transition-opacity duration-200 flex items-center"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo/hive-group.png"
+              alt="Hive Group"
+              width={878}
+              height={127}
+              className="block h-[10px] w-auto"
+              style={{ filter: isDark ? 'none' : 'invert(1)' }}
+              draggable={false}
+            />
+          </Link>
+          <Link
+            href={center.url}
+            aria-label="Hive Group"
+            className="absolute left-1/2 -translate-x-1/2 top-[12px] hidden md:block hover:opacity-70 transition-opacity duration-200"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo/hive-group.png"
+              alt="Hive Group"
+              width={878}
+              height={127}
+              className="block w-[221px] h-auto"
+              style={{ filter: isDark ? 'none' : 'invert(1)' }}
+              draggable={false}
+            />
+          </Link>
+        </>
       )}
       <Link
         href={right.url}
-        className="text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
+        className="text-[12px] md:text-[16px] font-normal uppercase no-underline hover:opacity-70 transition-opacity duration-200"
       >
         {right.text}
       </Link>
