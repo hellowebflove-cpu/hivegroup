@@ -62,7 +62,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <Link
             href={center.url}
             aria-label="Hive Group"
-            className="md:hidden hover:opacity-70 transition-opacity duration-200 flex items-center"
+            className="md:hidden hover:opacity-70 transition-opacity duration-200 inline-flex items-center h-[18px]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -70,7 +70,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               alt="Hive Group"
               width={878}
               height={127}
-              className="block h-[10px] w-auto"
+              className="block h-[12px] w-auto"
               style={{ filter: isDark ? 'none' : 'invert(1)' }}
               draggable={false}
             />
